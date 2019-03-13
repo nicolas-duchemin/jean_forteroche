@@ -1,0 +1,37 @@
+body {
+    background-color:#f2f2f2;
+    width:70%;
+    margin:auto;
+}
+
+h1, h3 {
+    text-align:center; 
+}
+
+h3 {
+    background-color:#56739A;
+    color:white;
+    font-size:0.9em;
+    margin-bottom:0px;
+    padding: 1rem 2rem;
+}
+
+.news p {
+    background-color:#DFF2FF;
+    margin-top: 0rem;
+    padding: 1rem 2rem;
+}
+
+form p {
+    padding: 0rem 2rem;
+}
+
+.textComment {
+    background-color: white;
+    padding: 1rem 2rem;
+}
+
+a {
+    color: #f36a10;
+    text-decoration: none;
+}
