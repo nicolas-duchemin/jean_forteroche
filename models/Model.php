@@ -1,7 +1,7 @@
 <?php
-namespace OpenClassrooms\Blog\Model;
+namespace NWC\Forteroche\Models;
 
-class Manager
+class Model
 {
     protected function dbConnect()
     {
