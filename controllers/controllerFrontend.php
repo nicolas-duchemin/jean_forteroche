@@ -1,6 +1,7 @@
 <?php
 require_once('models/ModelPost.php');
 require_once('models/ModelComment.php');
+require_once('models/ModelUser.php');
 
 function seeHome()
 {
@@ -16,6 +17,24 @@ function seeListPosts()
     $postsData = $modelPost->getPosts();
 
     require('views/frontend/viewListPosts.php');
+}
+
+function seeAuthor()
+{
+    require('views/frontend/viewAuthor.php');
+}
+
+function seeSignIn()
+{
+    require('views/frontend/viewSignIn.php');
+}
+
+function signIn($username, $password)
+{
+    $_SESSION['username'] = $username;
+    $_SESSION['password'] = $password;
+
+    header('Location: index.php?action=seeDashboard');
 }
 
 function seePost()
@@ -41,12 +60,17 @@ function addComment($postId, $author, $comment)
     }
 }
 
-function seeAuthor()
-{
-    require('views/frontend/viewAuthor.php');
-}
+/* Debugging *********************************
 
-function login()
+function addUser($username, $password)
 {
-    require('views/frontend/viewConnection.php');
+    $modelUser = new \NWC\Forteroche\Models\ModelUser();
+    $executedQuery = $modelUser->setUser($username, $password);
+
+    if ($executedQuery === false) {
+        throw new Exception('Impossible d\'ajouter l\'utilisateur !');
+    } else {
+        header('Location: index.php?action=seeHome');
+    }
 }
+*/

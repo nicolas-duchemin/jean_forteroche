@@ -14,15 +14,6 @@ class ModelComment extends Model
         return $commentsData;
     }
 
-    public function setComment($postId, $author, $comment)
-    {
-        $db = $this->dbConnect();
-        $query = $db->prepare('INSERT INTO comments(post_id, author, comment, comment_date) VALUES(?, ?, ?, NOW())');
-        $executedQuery = $query->execute(array($postId, $author, $comment));
-
-        return $executedQuery;
-    }
-
     public function getComment($commentId)
     {
         $db = $this->dbConnect();
@@ -31,6 +22,15 @@ class ModelComment extends Model
         
         $comment = $commentData->fetch();
         return $comment;
+    }
+
+    public function setComment($postId, $author, $comment)
+    {
+        $db = $this->dbConnect();
+        $query = $db->prepare('INSERT INTO comments(post_id, author, comment, comment_date) VALUES(?, ?, ?, NOW())');
+        $executedQuery = $query->execute(array($postId, $author, $comment));
+
+        return $executedQuery;
     }
 
     public function editComment($author, $comment, $commentId)

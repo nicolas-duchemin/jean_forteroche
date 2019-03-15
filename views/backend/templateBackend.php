@@ -15,9 +15,11 @@
         <header>
             <nav>
                 <ul>
-                    <li><a href="index.php?action=seeHome">Accueil</a></li>
-                    <li><a href="index.php?action=seeListPosts">Liste des chapitres</a></li>
-                    <li><a href="index.php?action=seeAuthor">Auteur</a></li>
+                    <li><a href="index.php?action=seeDashboard">Tableau de bord</a></li>
+                    <li><a href="index.php?action=seeAddPost">Rédaction d'un chapitre</a></li>
+                    <li><a href="index.php?action=seeEditPosts">Édition des chapitres et commentaires</a></li>
+                    <li><a href="index.php?action=seeSettings">Paramètres de connexion</a></li>
+                    <li><a href="index.php?action=signOut">Déconnexion</a></li>
                 </ul>
             </nav>
         </header>
@@ -28,7 +30,6 @@
 
         <footer>
             <p>COPYRIGHT © JEAN FORTEROCHE | CREATION : ND</p>
-            <p><a href="index.php?action=seeSignIn">Administration</a></p>
         </footer>
     </body>
 </html>
