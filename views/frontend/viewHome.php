@@ -24,7 +24,7 @@ ob_start();
     <p><em>Publié le <?= $lastPost['creation_date_fr'] ?></em></p>
 
     <p>
-        <?= nl2br(htmlspecialchars($lastPost['preview'])) ?> [...]<br>
+        <?= $lastPost['preview'] ?> [...]<br>
         <em><a href="index.php?action=seePost&amp;postId=<?= $lastPost['post_id'] ?>">Lire la suite</a></em>
     <p>
     

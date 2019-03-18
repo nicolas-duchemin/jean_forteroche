@@ -31,5 +31,8 @@
         <footer>
             <p>COPYRIGHT © JEAN FORTEROCHE | CREATION : ND</p>
         </footer>
+
+        <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=avd49kvodyddbqbc9lzov483vhdcsdhw01bg383bck1zn0nq"></script>
+        <script src="public/js/tinymceConfig.js"></script>
     </body>
 </html>

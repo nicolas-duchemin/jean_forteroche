@@ -19,7 +19,7 @@ ob_start();
         <p><em>Publié le <?= $post['creation_date_fr'] ?></em></p>
 
         <p>
-            <?= nl2br(htmlspecialchars($post['preview'])) ?> [...]<br>
+            <?= $post['preview'] ?> [...]<br>
             <em><a href="index.php?action=seeEditPost&amp;postId=<?= $post['post_id'] ?>">Editer</a></em>
         <p>
 

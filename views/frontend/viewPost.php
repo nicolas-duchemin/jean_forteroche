@@ -19,7 +19,7 @@ ob_start();
         ?>
     </p>
 
-    <p><?= nl2br(htmlspecialchars($post['content'])) ?></p>
+    <p><?= $post['content'] ?></p>
 
     <h3>Commentaires</h3>
 
