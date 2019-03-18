@@ -20,7 +20,6 @@ ob_start();
     </form>
     
     <!-- Debugging -----------------------------
-
     <form action="index.php?action=addUser" method="post">
         <fieldset>
             <legend>INSCRIPTION</legend> 
@@ -28,8 +27,7 @@ ob_start();
             <p><label for="password">Mot de passe</label> <input type="password" id="password" name="password"></p>
             <p><input type="submit" value="S'inscrire"></p>
         </fieldset>
-    </form>
-    -->
+    </form> -->
 
     <?php 
 

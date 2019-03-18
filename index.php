@@ -7,13 +7,38 @@ try {
     
     if (isset($_GET['action'])) {
         
-        /* Front End Router*/
+        /* Front End Router */
 
         if ($_GET['action'] == 'seeHome') {
             seeHome();
 
         } elseif ($_GET['action'] == 'seeListPosts') {
             seeListPosts();
+        
+        } elseif ($_GET['action'] == 'seePost') {
+            if (isset($_GET['postId']) && $_GET['postId'] > 0) {
+                seePost($_GET['postId']);
+            } else {
+                throw new Exception('Aucun identifiant de chapitre envoyé');
+            }
+
+        } elseif ($_GET['action'] == 'addComment') {
+            if (isset($_GET['postId']) && $_GET['postId'] > 0) {
+                if (!empty($_POST['author']) && !empty($_POST['comment'])) {
+                    addComment($_GET['postId'], $_POST['author'], $_POST['comment']);
+                } else {
+                    throw new Exception('Tous les champs ne sont pas remplis !');
+                }
+            } else {
+                throw new Exception('Aucun identifiant de chapitre envoyé');
+            }
+
+        } elseif ($_GET['action'] == 'reportComment') {
+            if (isset($_GET['commentId']) && $_GET['commentId'] > 0 && isset($_GET['postId']) && $_GET['postId'] > 0) {
+                    reportComment($_GET['commentId'], $_GET['postId']);
+            } else {
+                throw new Exception('Aucun identifiant de chapitre ou de commentaire envoyé');
+            }
 
         } elseif ($_GET['action'] == 'seeAuthor') {
             seeAuthor();
@@ -29,34 +54,14 @@ try {
             }
 
         /* Debugging *********************************
-
         } elseif ($_GET['action'] == 'addUser') {
             if (!empty($_POST['username']) && !empty($_POST['password'])) {
                 addUser($_POST['username'], $_POST['password']);
             } else {
                 throw new Exception('Tous les champs ne sont pas remplis !');
-            }
-        */
-
-        } elseif ($_GET['action'] == 'seePost') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                seePost();
-            } else {
-                throw new Exception('Aucun identifiant de chapitre envoyé');
-            }
-
-        } elseif ($_GET['action'] == 'addComment') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-                    addComment($_GET['id'], $_POST['author'], $_POST['comment']);
-                } else {
-                    throw new Exception('Tous les champs ne sont pas remplis !');
-                }
-            } else {
-                throw new Exception('Aucun identifiant de chapitre envoyé');
-            }
-
-        /* Back End Router*/
+            }*/
+     
+        /* Back End Router */
 
         } elseif ($_GET['action'] == 'seeDashboard') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
@@ -72,6 +77,17 @@ try {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
 
+        } elseif ($_GET['action'] == 'addPost') {
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                if (!empty($_POST['title']) && !empty($_POST['content'])) {
+                    addPost($_POST['title'], $_POST['content']);
+                } else {
+                    throw new Exception('Tous les champs ne sont pas remplis !');
+                }
+            } else {
+                throw new Exception('Aucune connexion en tant qu\'administrateur');
+            }  
+
         } elseif ($_GET['action'] == 'seeEditPosts') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 seeEditPosts();
@@ -79,16 +95,83 @@ try {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
 
-        } elseif ($_GET['action'] == 'seeSettings') {
+        } elseif ($_GET['action'] == 'seeEditPost') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                seeSettings();
+                if (isset($_GET['postId']) && $_GET['postId'] > 0) {
+                    seeEditPost($_GET['postId']);
+                } else {
+                    throw new Exception('Aucun identifiant de chapitre envoyé');
+                }
+            } else {
+                throw new Exception('Aucune connexion en tant qu\'administrateur');
+            }
+        
+        } elseif ($_GET['action'] == 'editPost') {
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                if (isset($_GET['postId']) && $_GET['postId'] > 0) {
+                    if (!empty($_POST['title']) && !empty($_POST['content'])) {
+                        editPost($_GET['postId'], $_POST['title'], $_POST['content']);
+                    } else {
+                        throw new Exception('Tous les champs ne sont pas remplis !');
+                    }
+                } else {
+                    throw new Exception('Aucun identifiant de chapitre ou de commentaire envoyé');
+                }
             } else {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
 
-        } elseif ($_GET['action'] == 'signOut') {
+        } elseif ($_GET['action'] == 'seeRemovePost') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                signOut();
+                if (isset($_GET['postId']) && $_GET['postId'] > 0) {
+                    seeRemovePost($_GET['postId']);
+                } else {
+                    throw new Exception('Aucun identifiant de chapitre envoyé');
+                }
+            } else {
+                throw new Exception('Aucune connexion en tant qu\'administrateur');
+            }
+
+        } elseif ($_GET['action'] == 'removePost') {
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                if (isset($_GET['postId']) && $_GET['postId'] > 0) {
+                    removePost($_GET['postId']);
+                } else {
+                    throw new Exception('Aucun identifiant de chapitre envoyé');
+                }
+            } else {
+                throw new Exception('Aucune connexion en tant qu\'administrateur');
+            }
+
+        } elseif ($_GET['action'] == 'editComment') {
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {            
+                if (isset($_GET['commentId']) && $_GET['commentId'] > 0 && isset($_GET['postId']) && $_GET['postId'] > 0) {
+                    if (!empty($_POST['author']) && !empty($_POST['comment'])) {
+                        editComment($_GET['postId'], $_POST['author'], $_POST['comment'], $_GET['commentId']);
+                    } else {
+                        throw new Exception('Tous les champs ne sont pas remplis !');
+                    }
+                } else {
+                    throw new Exception('Aucun identifiant de chapitre ou de commentaire envoyé');
+                }
+            } else {
+                throw new Exception('Aucune connexion en tant qu\'administrateur');
+            }
+
+        } elseif ($_GET['action'] == 'removeComment') {
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                if (isset($_GET['commentId']) && $_GET['commentId'] > 0 && isset($_GET['postId']) && $_GET['postId'] > 0) {
+                    removeComment($_GET['commentId'], $_GET['postId']);
+                } else {
+                    throw new Exception('Aucun identifiant de chapitre ou de commentaire envoyé');
+                }
+            } else {
+                throw new Exception('Aucune connexion en tant qu\'administrateur');
+            }
+
+        } elseif ($_GET['action'] == 'seeSettings') {
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                seeSettings();
             } else {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
@@ -123,6 +206,13 @@ try {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
 
+        } elseif ($_GET['action'] == 'signOut') {
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                signOut();
+            } else {
+                throw new Exception('Aucune connexion en tant qu\'administrateur');
+            }
+
         } else {
             throw new Exception('Aucune action définie');
         }
@@ -135,24 +225,3 @@ try {
     $errorMessage = $e->getMessage();
     require('views/viewError.php');
 }
-
-/* A supprimer ? 
-
-        } elseif ($_GET['action'] == 'seeComment') {
-            if (isset($_GET['id']) && $_GET['id'] > 0) {
-                seeComment();
-            } else {
-                throw new Exception('Aucun identifiant de commentaire envoyé');
-            }
-
-        } elseif ($_GET['action'] == 'editComment') {
-            if (isset($_GET['id']) && $_GET['id'] > 0 && isset($_GET['postId']) && $_GET['postId'] > 0) {
-                if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-                    editComment($_GET['postId'], $_POST['author'], $_POST['comment'], $_GET['id']);
-                } else {
-                    throw new Exception('Tous les champs ne sont pas remplis !');
-                }
-            } else {
-                throw new Exception('Aucun identifiant de chapitre ou de commentaire envoyé');
-            }
-*/

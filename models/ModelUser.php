@@ -30,7 +30,6 @@ class ModelUser extends Model
     }
 
     /* Debugging *********************************
-
     public function setUser($username, $password)
     {
         $db = $this->dbConnect();
@@ -42,6 +41,5 @@ class ModelUser extends Model
         ));
 
         return $executedQuery;
-    }
-    */
+    }*/
 }

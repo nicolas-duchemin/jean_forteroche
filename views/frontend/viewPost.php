@@ -8,15 +8,22 @@ ob_start();
 
     <h1>BILLET SIMPLE POUR L'ALASKA</h1>
 
-    <h2><?= strtoupper(htmlspecialchars($post['title'])) ?></h2>
+    <h2><?= htmlspecialchars($post['title']) ?></h2>
 
-    <p><em>Publié le <?= $post['creation_date_fr'] ?></em></p>
+    <p>
+        <em>Publié le <?= $post['creation_date_fr'] ?></em>
+        <?php 
+            if ($post['update_date_fr']) {
+            ?><em>- Édité le <?= $post['update_date_fr'] ?></em><?php
+            } 
+        ?>
+    </p>
 
     <p><?= nl2br(htmlspecialchars($post['content'])) ?></p>
 
     <h3>Commentaires</h3>
 
-    <form action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
+    <form action="index.php?action=addComment&amp;postId=<?= $post['post_id'] ?>" method="post">
         <fieldset>
             <legend>Laisser un commentaire</legend> 
             <p><label for="author">Auteur</label> <input type="text" id="author" name="author" size="58" /></p>
@@ -29,10 +36,16 @@ ob_start();
     <?php
 
     while ($comment = $commentsData->fetch()) {
-        ?>
-        <p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['comment_date_fr'] ?> (<a href="index.php?action=seeComment&amp;id=<?= $comment['id'] ?>">modifier</a>)</p>
-        <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
-        <?php
+        
+        ?><p><strong><?= htmlspecialchars($comment['author']) ?></strong> le <?= $comment['comment_date_fr'] ?> <?php
+
+        if ($comment['reporting'] == 1) {
+                echo "Signalé !";
+        } else {
+            ?>(<a href="index.php?action=reportComment&amp;commentId=<?= $comment['comment_id'] ?> &amp;postId=<?= $comment['post_id'] ?>">Signaler</a>)</p><?php
+        }
+
+        ?><p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p><?php
     }
 
     $commentsData->closeCursor();

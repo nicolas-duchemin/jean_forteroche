@@ -19,6 +19,41 @@ function seeListPosts()
     require('views/frontend/viewListPosts.php');
 }
 
+function seePost($postId)
+{
+    $modelPost = new \NWC\Forteroche\Models\ModelPost();
+    $post = $modelPost->getPost($_GET['postId']);
+    
+    $modelComment = new \NWC\Forteroche\Models\ModelComment();
+    $commentsData = $modelComment->getComments($_GET['postId']);
+
+    require('views/frontend/viewPost.php');
+}
+
+function addComment($postId, $author, $comment)
+{
+    $modelComment = new \NWC\Forteroche\Models\ModelComment();
+    $executedQuery = $modelComment->setComment($postId, $author, $comment);
+
+    if ($executedQuery === false) {
+        throw new Exception('Impossible d\'ajouter le commentaire !');
+    } else {
+        header('Location: index.php?action=seePost&postId=' . $postId);
+    }
+}
+
+function reportComment($commentId, $postId)
+{
+    $modelComment = new \NWC\Forteroche\Models\ModelComment();
+    $executedQuery = $modelComment->reportComment($commentId);
+
+    if ($executedQuery === false) {
+        throw new Exception('Impossible de signaler le commentaire !');
+    } else {
+        header('Location: index.php?action=seePost&postId=' . $postId);
+    }
+}
+
 function seeAuthor()
 {
     require('views/frontend/viewAuthor.php');
@@ -37,31 +72,7 @@ function signIn($username, $password)
     header('Location: index.php?action=seeDashboard');
 }
 
-function seePost()
-{
-    $modelPost = new \NWC\Forteroche\Models\ModelPost();
-    $post = $modelPost->getPost($_GET['id']);
-    
-    $modelComment = new \NWC\Forteroche\Models\ModelComment();
-    $commentsData = $modelComment->getComments($_GET['id']);
-
-    require('views/frontend/viewPost.php');
-}
-
-function addComment($postId, $author, $comment)
-{
-    $modelComment = new \NWC\Forteroche\Models\ModelComment();
-    $executedQuery = $modelComment->setComment($postId, $author, $comment);
-
-    if ($executedQuery === false) {
-        throw new Exception('Impossible d\'ajouter le commentaire !');
-    } else {
-        header('Location: index.php?action=seePost&id=' . $postId);
-    }
-}
-
 /* Debugging *********************************
-
 function addUser($username, $password)
 {
     $modelUser = new \NWC\Forteroche\Models\ModelUser();
@@ -72,5 +83,4 @@ function addUser($username, $password)
     } else {
         header('Location: index.php?action=seeHome');
     }
-}
-*/
+}*/

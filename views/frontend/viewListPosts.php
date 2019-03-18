@@ -20,7 +20,7 @@ ob_start();
 
         <p>
             <?= nl2br(htmlspecialchars($post['preview'])) ?> [...]<br>
-            <em><a href="index.php?action=seePost&amp;id=<?= $post['id'] ?>">Lire la suite</a></em>
+            <em><a href="index.php?action=seePost&amp;postId=<?= $post['post_id'] ?>">Lire la suite</a></em>
         <p>
 
         <?php
