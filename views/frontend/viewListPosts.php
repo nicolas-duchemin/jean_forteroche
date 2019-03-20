@@ -6,25 +6,25 @@ ob_start();
 
     ?>
 
-    <h1>BILLET SIMPLE POUR L'ALASKA</h1>
-
-    <h2>LISTE DES CHAPITRES</h2>
-
     <?php while ($post = $postsData->fetch()) {
-    
         ?>
-
-        <h3><?= htmlspecialchars($post['title']) ?></h3>
-
-        <p><em>Publié le <?= $post['creation_date_fr'] ?></em></p>
-
-        <p>
-            <?= $post['preview'] ?> [...]<br>
-            <em><a href="index.php?action=seePost&amp;postId=<?= $post['post_id'] ?>">Lire la suite</a></em>
-        <p>
-
+        <div class="flex">
+            <h3><?= htmlspecialchars($post['title']) ?></h3>
+            <p class="date">
+                <em>Publié le <?= $post['creation_date_fr'] ?></em>
+                <?php 
+                if ($post['update_date_fr']) {
+                    ?><em>- Édité le <?= $post['update_date_fr'] ?></em><?php
+                } 
+                ?>
+            </p>
+        </div>
+        
+        <div class="bloc">
+            <p><?= $post['preview'] ?> [...]</p>
+        </div>
+        <p class="buttonArea"><a class="button" href="index.php?action=seePost&amp;postId=<?= $post['post_id'] ?>">Lire la suite</a></p>
         <?php
-
     }
 
     $postsData->closeCursor(); 

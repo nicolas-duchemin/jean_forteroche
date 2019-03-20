@@ -5,21 +5,19 @@ $title = 'Rédaction d\'un chapitre';
 ob_start(); 
 
     ?>
-
-    <h1>BILLET SIMPLE POUR L'ALASKA</h1>
-
-    <h2>RÉDACTION D'UN CHAPITRE</h2>
     
 	<form action="index.php?action=addPost" method="post">
-        <fieldset>
-            <legend>Ajouter un chapitre</legend> 
-            <p><label for="title">Titre</label> <input type="text" id="title" name="title"></p>
-            <p><label for="content">Contenu</label></p>
-            <p><textarea id="content" name="content" cols="50"></textarea></p>
-            <p><input type="submit" value="Publier"></p>
-        </fieldset>
+        <p><label for="title">Titre</label></p>
+        <p><input type="text" id="title" name="title" placeholder=" Indiquez le titre du chapitre ici..."></p>
+        
+        <div class="bloc">
+	        <p><label for="content">Contenu</label></p>
+	        <p><textarea id="content" name="content" rows="50">Écrivez le contenu du chapitre ici...</textarea></p>
+        </div>
+        
+        <p class="buttonArea"><input class="button" type="submit" value="Publier"></p>
     </form>
-
+	
     <?php 
 
 $content = ob_get_clean();

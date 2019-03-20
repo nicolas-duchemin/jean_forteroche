@@ -2,6 +2,6 @@
 
 $title = 'Erreur';
 
-$content = '<h1>Perdu dans le grand Nord...</h1><p>Erreur : ' . $errorMessage . '</p>';
+$content = '<h3>Perdu dans le grand Nord...</h3><div class="bloc"><p>' . $errorMessage . '</p></div>';
 
 require('frontend/template.php');

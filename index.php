@@ -1,23 +1,29 @@
 <?php
 session_start();
-require('controllers/controllerFrontend.php');
-require('controllers/controllerBackend.php');
+require('controllers/ControllerFrontend.php');
+require('controllers/ControllerBackend.php');
+
+use \NWC\Forteroche\Controllers\ControllerFrontend;
+use \NWC\Forteroche\Controllers\ControllerBackend;
 
 try {
     
     if (isset($_GET['action'])) {
         
-        /* Front End Router */
+    /* Front End Router */
 
         if ($_GET['action'] == 'seeHome') {
-            seeHome();
+            $controllerFrontend = new ControllerFrontend();
+            $controllerFrontend->seeHome();
 
         } elseif ($_GET['action'] == 'seeListPosts') {
-            seeListPosts();
+            $controllerFrontend = new ControllerFrontend();
+            $controllerFrontend->seeListPosts();
         
         } elseif ($_GET['action'] == 'seePost') {
             if (isset($_GET['postId']) && $_GET['postId'] > 0) {
-                seePost($_GET['postId']);
+                $controllerFrontend = new ControllerFrontend();
+                $controllerFrontend->seePost($_GET['postId']);
             } else {
                 throw new Exception('Aucun identifiant de chapitre envoyé');
             }
@@ -25,7 +31,8 @@ try {
         } elseif ($_GET['action'] == 'addComment') {
             if (isset($_GET['postId']) && $_GET['postId'] > 0) {
                 if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-                    addComment($_GET['postId'], $_POST['author'], $_POST['comment']);
+                    $controllerFrontend = new ControllerFrontend();
+                    $controllerFrontend->addComment($_GET['postId'], $_POST['author'], $_POST['comment']);
                 } else {
                     throw new Exception('Tous les champs ne sont pas remplis !');
                 }
@@ -35,44 +42,54 @@ try {
 
         } elseif ($_GET['action'] == 'reportComment') {
             if (isset($_GET['commentId']) && $_GET['commentId'] > 0 && isset($_GET['postId']) && $_GET['postId'] > 0) {
-                    reportComment($_GET['commentId'], $_GET['postId']);
+                    $controllerFrontend = new ControllerFrontend();
+                    $controllerFrontend->reportComment($_GET['commentId'], $_GET['postId']);
             } else {
                 throw new Exception('Aucun identifiant de chapitre ou de commentaire envoyé');
             }
 
         } elseif ($_GET['action'] == 'seeAuthor') {
-            seeAuthor();
+            $controllerFrontend = new ControllerFrontend();
+            $controllerFrontend->seeAuthor();
 
         } elseif ($_GET['action'] == 'seeSignIn') {
-            seeSignIn();
+            $controllerFrontend = new ControllerFrontend();
+            $controllerFrontend->seeSignIn();
 
         } elseif ($_GET['action'] == 'signIn') {
             if (!empty($_POST['username']) && !empty($_POST['password'])) {
-                signIn($_POST['username'], $_POST['password']);
+                $controllerFrontend = new ControllerFrontend();
+                $controllerFrontend->signIn($_POST['username'], $_POST['password']);
             } else {
                 throw new Exception('Tous les champs ne sont pas remplis !');
             }
 
         /* Debugging *********************************
+
         } elseif ($_GET['action'] == 'addUser') {
             if (!empty($_POST['username']) && !empty($_POST['password'])) {
-                addUser($_POST['username'], $_POST['password']);
+                $controllerFrontend = new ControllerFrontend();
+                $controllerFrontend->addUser($_POST['username'], $_POST['password']);
             } else {
                 throw new Exception('Tous les champs ne sont pas remplis !');
-            }*/
+            }
+
+        **********************************************/
      
-        /* Back End Router */
+    /* Back End Router */
 
         } elseif ($_GET['action'] == 'seeDashboard') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                seeDashboard();
+                $controllerBackend = new ControllerBackend();
+                $controllerBackend->seeDashboard($_SESSION['username'], $_SESSION['password']);
             } else {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
 
         } elseif ($_GET['action'] == 'seeAddPost') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                seeAddPost();
+                $controllerBackend = new ControllerBackend();
+                $controllerBackend->seeAddPost($_SESSION['username'], $_SESSION['password']);
             } else {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
@@ -80,7 +97,8 @@ try {
         } elseif ($_GET['action'] == 'addPost') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (!empty($_POST['title']) && !empty($_POST['content'])) {
-                    addPost($_POST['title'], $_POST['content']);
+                    $controllerBackend = new ControllerBackend();
+                    $controllerBackend->addPost($_SESSION['username'], $_SESSION['password'], $_POST['title'], $_POST['content']);
                 } else {
                     throw new Exception('Tous les champs ne sont pas remplis !');
                 }
@@ -90,7 +108,8 @@ try {
 
         } elseif ($_GET['action'] == 'seeEditPosts') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                seeEditPosts();
+                $controllerBackend = new ControllerBackend();
+                $controllerBackend->seeEditPosts($_SESSION['username'], $_SESSION['password']);
             } else {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
@@ -98,7 +117,8 @@ try {
         } elseif ($_GET['action'] == 'seeEditPost') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (isset($_GET['postId']) && $_GET['postId'] > 0) {
-                    seeEditPost($_GET['postId']);
+                    $controllerBackend = new ControllerBackend();
+                    $controllerBackend->seeEditPost($_SESSION['username'], $_SESSION['password'], $_GET['postId']);
                 } else {
                     throw new Exception('Aucun identifiant de chapitre envoyé');
                 }
@@ -110,7 +130,8 @@ try {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (isset($_GET['postId']) && $_GET['postId'] > 0) {
                     if (!empty($_POST['title']) && !empty($_POST['content'])) {
-                        editPost($_GET['postId'], $_POST['title'], $_POST['content']);
+                        $controllerBackend = new ControllerBackend();
+                        $controllerBackend->editPost($_SESSION['username'], $_SESSION['password'], $_GET['postId'], $_POST['title'], $_POST['content']);
                     } else {
                         throw new Exception('Tous les champs ne sont pas remplis !');
                     }
@@ -124,7 +145,8 @@ try {
         } elseif ($_GET['action'] == 'seeRemovePost') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (isset($_GET['postId']) && $_GET['postId'] > 0) {
-                    seeRemovePost($_GET['postId']);
+                    $controllerBackend = new ControllerBackend();
+                    $controllerBackend->seeRemovePost($_SESSION['username'], $_SESSION['password'], $_GET['postId']);
                 } else {
                     throw new Exception('Aucun identifiant de chapitre envoyé');
                 }
@@ -135,7 +157,8 @@ try {
         } elseif ($_GET['action'] == 'removePost') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (isset($_GET['postId']) && $_GET['postId'] > 0) {
-                    removePost($_GET['postId']);
+                    $controllerBackend = new ControllerBackend();
+                    $controllerBackend->removePost($_SESSION['username'], $_SESSION['password'], $_GET['postId']);
                 } else {
                     throw new Exception('Aucun identifiant de chapitre envoyé');
                 }
@@ -147,7 +170,8 @@ try {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {            
                 if (isset($_GET['commentId']) && $_GET['commentId'] > 0 && isset($_GET['postId']) && $_GET['postId'] > 0) {
                     if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-                        editComment($_GET['postId'], $_POST['author'], $_POST['comment'], $_GET['commentId']);
+                        $controllerBackend = new ControllerBackend();
+                        $controllerBackend->editComment($_SESSION['username'], $_SESSION['password'], $_GET['postId'], $_POST['author'], $_POST['comment'], $_GET['commentId']);
                     } else {
                         throw new Exception('Tous les champs ne sont pas remplis !');
                     }
@@ -161,7 +185,8 @@ try {
         } elseif ($_GET['action'] == 'removeComment') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (isset($_GET['commentId']) && $_GET['commentId'] > 0 && isset($_GET['postId']) && $_GET['postId'] > 0) {
-                    removeComment($_GET['commentId'], $_GET['postId']);
+                    $controllerBackend = new ControllerBackend();
+                    $controllerBackend->removeComment($_SESSION['username'], $_SESSION['password'], $_GET['commentId'], $_GET['postId']);
                 } else {
                     throw new Exception('Aucun identifiant de chapitre ou de commentaire envoyé');
                 }
@@ -171,7 +196,8 @@ try {
 
         } elseif ($_GET['action'] == 'seeSettings') {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                seeSettings();
+                $controllerBackend = new ControllerBackend();
+                $controllerBackend->seeSettings($_SESSION['username'], $_SESSION['password']);
             } else {
                 throw new Exception('Aucune connexion en tant qu\'administrateur');
             }
@@ -180,7 +206,8 @@ try {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (!empty($_POST['newUsernameOne']) && !empty($_POST['newUsernameTwo'])) {
                     if ($_POST['newUsernameOne'] == $_POST['newUsernameTwo']) {
-                        editUsername($_POST['newUsernameOne']);
+                        $controllerBackend = new ControllerBackend();
+                        $controllerBackend->editUsername($_SESSION['username'], $_SESSION['password'], $_POST['newUsernameOne']);
                     } else {
                         throw new Exception('L\'identifiant doit être écrit deux fois à l\'identique');
                     }
@@ -195,7 +222,8 @@ try {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 if (!empty($_POST['newPasswordOne']) && !empty($_POST['newPasswordTwo'])) {
                     if ($_POST['newPasswordOne'] == $_POST['newPasswordTwo']) {
-                        editPassword($_POST['newPasswordOne']);
+                        $controllerBackend = new ControllerBackend();
+                        $controllerBackend->editPassword($_SESSION['username'], $_SESSION['password'], $_POST['newPasswordOne']);
                     } else {
                         throw new Exception('Le mot de passe doit être écrit deux fois à l\'identique');
                     }
@@ -207,18 +235,16 @@ try {
             }
 
         } elseif ($_GET['action'] == 'signOut') {
-            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                signOut();
-            } else {
-                throw new Exception('Aucune connexion en tant qu\'administrateur');
-            }
+            $controllerBackend = new ControllerBackend();
+            $controllerBackend->signOut();
 
         } else {
             throw new Exception('Aucune action définie');
         }
 
     } else {
-        seeHome();
+        $controllerFrontend = new ControllerFrontend();
+        $controllerFrontend->seeHome();
     }
     
 } catch(Exception $e) {

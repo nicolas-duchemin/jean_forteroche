@@ -1,86 +1,98 @@
 <?php
+namespace NWC\Forteroche\Controllers;
+
 require_once('models/ModelPost.php');
 require_once('models/ModelComment.php');
 require_once('models/ModelUser.php');
 
-function seeHome()
+use \NWC\Forteroche\Models\ModelPost;
+use \NWC\Forteroche\Models\ModelComment;
+use \NWC\Forteroche\Models\ModelUser;
+
+class ControllerFrontend
 {
-    $modelPost = new \NWC\Forteroche\Models\ModelPost();
-    $lastPost = $modelPost->getLastPost();
+    public function seeHome()
+    {
+        $modelPost = new ModelPost();
+        $lastPost = $modelPost->getLastPost();
 
-    require('views/frontend/viewHome.php');
-}
+        require('views/frontend/viewHome.php');
+    }
 
-function seeListPosts()
-{
-    $modelPost = new \NWC\Forteroche\Models\ModelPost();
-    $postsData = $modelPost->getPosts();
+    public function seeListPosts()
+    {
+        $modelPost = new ModelPost();
+        $postsData = $modelPost->getPosts();
 
-    require('views/frontend/viewListPosts.php');
-}
+        require('views/frontend/viewListPosts.php');
+    }
 
-function seePost($postId)
-{
-    $modelPost = new \NWC\Forteroche\Models\ModelPost();
-    $post = $modelPost->getPost($_GET['postId']);
+    public function seePost($postId)
+    {
+        $modelPost = new ModelPost();
+        $post = $modelPost->getPost($_GET['postId']);
+        
+        $modelComment = new ModelComment();
+        $commentsData = $modelComment->getComments($_GET['postId']);
+
+        require('views/frontend/viewPost.php');
+    }
+
+    public function addComment($postId, $author, $comment)
+    {
+        $modelComment = new ModelComment();
+        $executedQuery = $modelComment->setComment($postId, $author, $comment);
+
+        if ($executedQuery === false) {
+            throw new \Exception('Impossible d\'ajouter le commentaire !');
+        } else {
+            header('Location: index.php?action=seePost&postId=' . $postId);
+        }
+    }
+
+    public function reportComment($commentId, $postId)
+    {
+        $modelComment = new ModelComment();
+        $executedQuery = $modelComment->reportComment($commentId);
+
+        if ($executedQuery === false) {
+            throw new \Exception('Impossible de signaler le commentaire !');
+        } else {
+            header('Location: index.php?action=seePost&postId=' . $postId);
+        }
+    }
+
+    public function seeAuthor()
+    {
+        require('views/frontend/viewAuthor.php');
+    }
+
+    public function seeSignIn()
+    {
+        require('views/frontend/viewSignIn.php');
+    }
+
+    public function signIn($username, $password)
+    {
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+
+        header('Location: index.php?action=seeDashboard');
+    }
+
+    /* Debugging *********************************
+
+    public function addUser($username, $password)
+    {
+        $modelUser = new ModelUser();
+        $executedQuery = $modelUser->setUser($username, $password);
+
+        if ($executedQuery === false) {
+            throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
+        } else {
+            header('Location: index.php?action=seeHome');
+        }
+    }
     
-    $modelComment = new \NWC\Forteroche\Models\ModelComment();
-    $commentsData = $modelComment->getComments($_GET['postId']);
-
-    require('views/frontend/viewPost.php');
+    **********************************************/
 }
-
-function addComment($postId, $author, $comment)
-{
-    $modelComment = new \NWC\Forteroche\Models\ModelComment();
-    $executedQuery = $modelComment->setComment($postId, $author, $comment);
-
-    if ($executedQuery === false) {
-        throw new Exception('Impossible d\'ajouter le commentaire !');
-    } else {
-        header('Location: index.php?action=seePost&postId=' . $postId);
-    }
-}
-
-function reportComment($commentId, $postId)
-{
-    $modelComment = new \NWC\Forteroche\Models\ModelComment();
-    $executedQuery = $modelComment->reportComment($commentId);
-
-    if ($executedQuery === false) {
-        throw new Exception('Impossible de signaler le commentaire !');
-    } else {
-        header('Location: index.php?action=seePost&postId=' . $postId);
-    }
-}
-
-function seeAuthor()
-{
-    require('views/frontend/viewAuthor.php');
-}
-
-function seeSignIn()
-{
-    require('views/frontend/viewSignIn.php');
-}
-
-function signIn($username, $password)
-{
-    $_SESSION['username'] = $username;
-    $_SESSION['password'] = $password;
-
-    header('Location: index.php?action=seeDashboard');
-}
-
-/* Debugging *********************************
-function addUser($username, $password)
-{
-    $modelUser = new \NWC\Forteroche\Models\ModelUser();
-    $executedQuery = $modelUser->setUser($username, $password);
-
-    if ($executedQuery === false) {
-        throw new Exception('Impossible d\'ajouter l\'utilisateur !');
-    } else {
-        header('Location: index.php?action=seeHome');
-    }
-}*/

@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content=" ">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700"> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800">
         <link rel="stylesheet" href="public/css/style.css">
         <link rel="icon" href="public/img/favicon.png">
     	<title><?= $title ?></title>
@@ -22,6 +22,10 @@
                     <li><a href="index.php?action=signOut">Déconnexion</a></li>
                 </ul>
             </nav>
+            <hr>
+            <h1>BILLET SIMPLE POUR L'ALASKA</h1>
+            <hr>
+            <h2><?= $title ?></h2>
         </header>
 
         <section >

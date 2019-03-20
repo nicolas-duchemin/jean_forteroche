@@ -5,33 +5,38 @@ $title = 'Édition des chapitres et commentaires';
 ob_start(); 
 
     ?>
-
-    <h1>BILLET SIMPLE POUR L'ALASKA</h1>
-
-    <h2>ÉDITION DES CHAPITRES ET COMMENTAIRES</h2>
-    
+   
     <?php while ($post = $postsData->fetch()) {
-    
         ?>
+        <div class="flex">
+            <h3><?= htmlspecialchars($post['title']) ?></h3>
+            <p class="date"><em>Publié le <?= $post['creation_date_fr'] ?></em>
+            <?php 
+                if ($post['update_date_fr']) {
+                    ?><em>- Édité le <?= $post['update_date_fr'] ?></em><?php
+                } 
+            ?></p>
+        </div>
+        
+        <div class="bloc">
+            <p><?= $post['preview'] ?> [...]</p>
+        </div>
 
-        <h3><?= htmlspecialchars($post['title']) ?></h3>
+        <p class="buttonArea"><a class="button" href="index.php?action=seeEditPost&amp;postId=<?= $post['post_id'] ?>">Éditer</a></p>
 
-        <p><em>Publié le <?= $post['creation_date_fr'] ?></em></p>
-
-        <p>
-            <?= $post['preview'] ?> [...]<br>
-            <em><a href="index.php?action=seeEditPost&amp;postId=<?= $post['post_id'] ?>">Editer</a></em>
-        <p>
-
-        <?php
-
+        <?php       
     }
 
     $postsData->closeCursor(); 
-
 
 $content = ob_get_clean();
 
 require('templateBackend.php'); 
 
 ?>
+
+
+
+    
+        
+    

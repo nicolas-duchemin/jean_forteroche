@@ -8,7 +8,7 @@ class ModelPost extends Model
     public function getPosts()
     {
         $db = $this->dbConnect();
-        $postsData = $db->query('SELECT post_id, title, SUBSTRING(content, 1, 500) AS preview, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC');
+        $postsData = $db->query('SELECT post_id, title, SUBSTRING(content, 1, 500) AS preview, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, DATE_FORMAT(update_date, \'%d/%m/%Y à %Hh%imin%ss\') AS update_date_fr FROM posts ORDER BY creation_date DESC');
 
         return $postsData;
     }
@@ -26,7 +26,7 @@ class ModelPost extends Model
     public function getLastPost()
     {
         $db = $this->dbConnect();
-        $lastPostData = $db->query('SELECT post_id, title, SUBSTRING(content, 1, 500) AS preview, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 1');
+        $lastPostData = $db->query('SELECT post_id, title, SUBSTRING(content, 1, 500) AS preview, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, DATE_FORMAT(update_date, \'%d/%m/%Y à %Hh%imin%ss\') AS update_date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 1');
 
         $lastPost = $lastPostData->fetch();
         return $lastPost;
