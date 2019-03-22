@@ -1,7 +1,7 @@
 <?php
 session_start();
-require('controllers/ControllerFrontend.php');
-require('controllers/ControllerBackend.php');
+require_once('controllers/ControllerFrontend.php');
+require_once('controllers/ControllerBackend.php');
 
 use \NWC\Forteroche\Controllers\ControllerFrontend;
 use \NWC\Forteroche\Controllers\ControllerBackend;

@@ -7,9 +7,8 @@ ob_start();
     ?>
 
     <h3>COMMENTAIRES SIGNALÉS</h3>
-
+    
     <?php 
-
     while ($reportedComment = $reportedCommentsData->fetch()) {
         ?>
         <div class="flex">
@@ -21,13 +20,12 @@ ob_start();
         </div>
 
         <div class="bloc">    
-            <p><?= nl2br(htmlspecialchars($reportedComment['comment'])) ?></p>
+            <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', nl2br(htmlspecialchars($reportedComment['comment']))) ?></p>
         </div>
 
         <p class="buttonArea"><a class="button" href="index.php?action=seeEditPost&amp;postId=<?= $reportedComment['post_id'] ?>">Voir le chapitre associé</a></p>    
         <?php
     }
-
     ?>
 
     <h3>DERNIERS COMMENTAIRES</h3>
@@ -42,7 +40,7 @@ ob_start();
         </div>
 
         <div class="bloc">    
-            <p><?= nl2br(htmlspecialchars($lastComment['comment'])) ?></p>
+            <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', nl2br(htmlspecialchars($lastComment['comment']))) ?></p>
         </div>
         
         <p class="buttonArea"><a class="button" href="index.php?action=seeEditPost&amp;postId=<?= $lastComment['post_id'] ?>">Voir le chapitre associé</a></p>

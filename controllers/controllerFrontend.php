@@ -35,7 +35,11 @@ class ControllerFrontend
         $modelComment = new ModelComment();
         $commentsData = $modelComment->getComments($_GET['postId']);
 
-        require('views/frontend/viewPost.php');
+        if (!empty($post)) {
+            require('views/frontend/viewPost.php');
+        } else {
+            throw new \Exception('Numéro de chapitre inconnue');
+        }
     }
 
     public function addComment($postId, $author, $comment)

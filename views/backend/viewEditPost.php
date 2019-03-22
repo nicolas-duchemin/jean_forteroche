@@ -48,8 +48,10 @@ ob_start();
             <div class="bloc"> 
                 <p><label for="comment">Commentaire</label></p>
                 <p><textarea id="comment" name="comment" rows="5"><?= htmlspecialchars($comment['comment']) ?></textarea></p>
-            </div>
             
+
+            </div>
+
             <p class="buttonArea"><input class="button" type="submit" value="Enregistrer la modification"> <a class="button" href="index.php?action=removeComment&amp;commentId=<?= $comment['comment_id'] ?>&amp;postId=<?= $comment['post_id'] ?>">Supprimer le commentaire</a></p>
         </form>   
         <?php

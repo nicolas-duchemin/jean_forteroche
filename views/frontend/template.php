@@ -2,27 +2,40 @@
 
 <html lang="fr">
     <head> 
+        <!-- Metatags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content=" ">
+        <meta name="description" content="Billet simple pour l'Alaska - Le nouveau roman en ligne de Jean Forteroche">
+        <!-- Card meta (Twitter) -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Jean Forteroche">
+        <meta name="twitter:image:src" content="http://jean-forteroche.normandie-web-creation.fr/public/images/annonce.png">
+        <meta name="twitter:url" content="http://jean-forteroche.normandie-web-creation.fr/" />
+        <meta name="twitter:description" content="Billet simple pour l'Alaska - Le nouveau roman en ligne de Jean Forteroche">
+        <!-- Open Graph meta (Facebook, LinkedIn) -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Jean Forteroche" />
+        <meta property="og:image" content="http://jean-forteroche.normandie-web-creation.fr/public/images/annonce.png" />
+        <meta property="og:url" content="http://jean-forteroche.normandie-web-creation.fr/" />
+        <meta property="og:description" content="Billet simple pour l'Alaska - Le nouveau roman en ligne de Jean Forteroche" />
+        <!-- Styles -->  
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">        
         <link rel="stylesheet" href="public/css/style.css">
-        <link rel="icon" href="public/img/favicon.png">
-    	<title><?= $title ?></title>
+        <link rel="icon" href="public/images/favicon.ico">      
+        <title><?= $title ?></title>
     </head>
 
     <body>
         <header>
             <nav>
-                <ul>
+                <input type="checkbox" id="menuIcone">
+                <ul id="ulFrontEnd">
                     <li><a href="index.php?action=seeHome">ACCUEIL</a></li>
                     <li><a href="index.php?action=seeListPosts">LISTE DES CHAPITRES</a></li>
                     <li><a href="index.php?action=seeAuthor">AUTEUR</a></li>
                 </ul>
-                <form>
-                    <label for="menuIcone"><i class="fas fa-bars"></i></label>
-                    <input type="checkbox" name="menuIcone" id="menuIcone">
-                </form>
+                <label id="labelFrontEnd" for="menuIcone"><i class="fas fa-bars"></i></label>
             </nav>
             <hr>
             <h1>BILLET SIMPLE POUR L'ALASKA</h1>
@@ -34,8 +47,11 @@
         	<?= $content ?>
         </section>
 
-        <footer class="flex">
-            <p>COPYRIGHT © JEAN FORTEROCHE | CREATION : ND</p>
+        <footer class="flex footerFrontEnd">
+            <div class="flex footerFrontEnd">
+                <img class="logo" src="public/images/logo.png">
+                <p>COPYRIGHT © JEAN FORTEROCHE | CREATION : ND</p>
+            </div>
             <p><a class="button" href="index.php?action=seeSignIn">Administration</a></p>
         </footer>
     </body>

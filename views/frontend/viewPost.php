@@ -15,7 +15,7 @@ ob_start();
     </div>
 
     <div class="bloc">
-        <p><?= $post['content'] ?></p>
+        <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', $post['content']) ?></p> <!-- pas d'échappement htmlspecialchars ici (mise en page TinyMCE)-->
     </div>
 
     <h4>Laisser un commentaire</h4>
@@ -46,9 +46,17 @@ ob_start();
         </div>
 
         <div class="bloc">    
-            <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
+            <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', nl2br(htmlspecialchars($comment['comment']))) ?></p>
+        
         </div>
-        <p class="buttonArea"><a class="button" href="index.php?action=reportComment&amp;commentId=<?= $comment['comment_id'] ?>&amp;postId=<?= $comment['post_id'] ?>">Signaler</a></p>
+
+        <p>
+            <?php
+            if ($comment['reporting'] != 1) { 
+                ?><p class="buttonArea"><a class="button" href="index.php?action=reportComment&amp;commentId=<?= $comment['comment_id'] ?>&amp;postId=<?= $comment['post_id'] ?>">Signaler</a></p><?php
+            }
+            ?>
+        </p>
         <?php
     }  
 

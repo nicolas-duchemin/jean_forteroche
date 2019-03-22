@@ -81,7 +81,11 @@ class ControllerBackend
             $post = $modelPost->getPost($postId);
             $modelComment = new ModelComment();
             $commentsData = $modelComment->getComments($postId);
-            require('views/backend/viewEditPost.php');
+            if (!empty($post)) {
+                require('views/backend/viewEditPost.php');
+            } else {
+                throw new \Exception('Numéro de chapitre inconnue');
+            }
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }       

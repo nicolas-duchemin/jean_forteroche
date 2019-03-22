@@ -10,7 +10,7 @@ ob_start();
     
     <form action="index.php?action=editUsername" method="post">
         <div class="bloc">
-            <p>Votre identifiant actuel est : <strong><?= $_SESSION['username'] ?></strong></p>
+            <p>Votre identifiant actuel est : <strong><?= htmlspecialchars($_SESSION['username']) ?></strong></p>
             <p><label class="settings" for="newUsernameOne">Veuillez indiquer votre nouvel identifiant : </label></p>
             <p><input type="text" id="newUsernameOne" name="newUsernameOne"></p>
             <p><label class="settings" for="newUsernameTwo">Veuillez confirmer votre nouvel identifiant : </label></p>

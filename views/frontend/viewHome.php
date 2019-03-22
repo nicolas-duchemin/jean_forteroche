@@ -7,12 +7,10 @@ ob_start();
     ?>
 
     <h3>Description du roman</h3>
-
     <div class="bloc">
-        <p>
-            Bloqués par la neige, la folie les guette ! Ou bien est-ce la folie à l'origine de tout ?<br>
-            Découvrez l'effroyable aventure de 24 voyageurs perdus dans les plaines de l'Alaska...
-        </p>
+        <p><em> « Laissez-moi vous conter une histoire, vous dévoiler un chapitre secret de ma vie, une page que j’avais enterrée au fin fond de moi-même. Écoutez-moi patiemment, et ne m’interrompez pas ! »</em></p>
+        <p>Billet simple pour l'Alaska relate l’histoire de 24 voyageurs bloqués dans un train en raison d’une tempête de neige. Combien de temps faudra-t-il avant qu’ils ne sombrent dans la folie ? Vous le saurez en lisant le nouveau roman en ligne de Jean Forteroche.</p>
+        <p>N’attendez plus ! Découvrez vite l'effroyable aventure de ces 24 voyageurs en Alaska...</p>
     </div>
 
     <div class="flex">
@@ -28,7 +26,7 @@ ob_start();
     </div>
 
     <div class="bloc">
-        <p><?= $lastPost['preview'] ?> [...]</p>
+        <p><?= $lastPost['preview'] ?> [...]</p> <!-- pas d'échappement htmlspecialchars ici (mise en page TinyMCE)-->
     </div>
 
     <p class="buttonArea"><a class="button" href="index.php?action=seePost&amp;postId=<?= $lastPost['post_id'] ?>">Lire la suite</a></p>

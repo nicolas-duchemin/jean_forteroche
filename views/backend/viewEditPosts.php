@@ -19,7 +19,7 @@ ob_start();
         </div>
         
         <div class="bloc">
-            <p><?= $post['preview'] ?> [...]</p>
+            <p><?= $post['preview'] ?> [...]</p> <!-- pas d'échappement htmlspecialchars ici (mise en page TinyMCE)-->
         </div>
 
         <p class="buttonArea"><a class="button" href="index.php?action=seeEditPost&amp;postId=<?= $post['post_id'] ?>">Éditer</a></p>
