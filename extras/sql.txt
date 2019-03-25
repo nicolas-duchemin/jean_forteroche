@@ -1,0 +1,3 @@
+Une requête SQL appelle un restaurant pour réserver..
+
+Le serveur répond : « Il n'y a plus de Tables ! »

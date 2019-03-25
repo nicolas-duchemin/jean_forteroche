@@ -1,0 +1,32 @@
+#==================================================
+# Réécriture des URL - Répertoire : /forteroche/
+#==================================================
+
+#--------------------------------------------------
+# Activation de la gestion des URL symboliques
+#--------------------------------------------------
+
+Options +FollowSymlinks
+
+#--------------------------------------------------
+# Activation du module de réécriture d'URL
+#--------------------------------------------------
+
+RewriteEngine on
+
+#--------------------------------------------------
+# Règles de réécriture des URL
+#--------------------------------------------------
+
+RewriteRule ^accueil.html$                        index.php?action=seeHome [L]
+RewriteRule ^chapitres.html$                      index.php?action=seeListPosts [L]
+RewriteRule ^chapitre-([0-9]+).html$              index.php?action=seePost&postId=$1 [L]
+RewriteRule ^auteur.html$                         index.php?action=seeAuthor [L]
+RewriteRule ^administration.html$                 index.php?action=seeSignIn [L]
+
+RewriteRule ^tableau-de-bord.html$                index.php?action=seeDashboard [L]
+RewriteRule ^redaction-chapitre.html$             index.php?action=seeAddPost [L]
+RewriteRule ^edition-chapitres.html$              index.php?action=seeEditPosts [L]
+RewriteRule ^edition-chapitre-([0-9]+).html$      index.php?action=seeEditPost&postId=$1 [L]
+RewriteRule ^suppression-chapitre-([0-9]+).html$  index.php?action=seeRemovePost&postId=$1 [L]
+RewriteRule ^parametres.html$                     index.php?action=seeSettings [L]

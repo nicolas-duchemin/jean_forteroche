@@ -1,15 +1,11 @@
 <?php 
-
 $title = 'Tableau de bord';
-
 ob_start(); 
-
-    ?>
-
-    <h3>COMMENTAIRES SIGNALÉS</h3>
     
+    ?>
+    <h3>COMMENTAIRES SIGNALÉS</h3>
     <?php 
-    while ($reportedComment = $reportedCommentsData->fetch()) {
+    while ($reportedComment = $reportedCommentsData->fetch()) { 
         ?>
         <div class="flex">
             <h4><?= htmlspecialchars($reportedComment['author']) ?></h4>
@@ -23,15 +19,16 @@ ob_start();
             <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', nl2br(htmlspecialchars($reportedComment['comment']))) ?></p>
         </div>
 
-        <p class="buttonArea"><a class="button" href="index.php?action=seeEditPost&amp;postId=<?= $reportedComment['post_id'] ?>">Voir le chapitre associé</a></p>    
+        <p class="buttonArea">
+            <a class="button" href="edition-chapitre-<?= $reportedComment['post_id'] ?>.html">Voir le chapitre associé</a>
+        </p>    
         <?php
     }
+    $reportedCommentsData->closeCursor();
     ?>
 
-    <h3>DERNIERS COMMENTAIRES</h3>
-
+    <h3><br>DERNIERS COMMENTAIRES</h3>
     <?php 
-
     while ($lastComment = $lastCommentsData->fetch()) { 
         ?>
         <div class="flex">
@@ -43,14 +40,11 @@ ob_start();
             <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', nl2br(htmlspecialchars($lastComment['comment']))) ?></p>
         </div>
         
-        <p class="buttonArea"><a class="button" href="index.php?action=seeEditPost&amp;postId=<?= $lastComment['post_id'] ?>">Voir le chapitre associé</a></p>
+        <p class="buttonArea"><a class="button" href="edition-chapitre-<?= $lastComment['post_id'] ?>.html">Voir le chapitre associé</a></p>
         <?php
     }
-
     $lastCommentsData->closeCursor();
     
 $content = ob_get_clean();
-
 require('templateBackend.php'); 
-
 ?>

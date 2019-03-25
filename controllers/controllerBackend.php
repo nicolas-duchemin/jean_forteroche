@@ -1,35 +1,48 @@
 <?php
-namespace NWC\Forteroche\Controllers;
+namespace Forteroche\Controllers;
 
 require_once('models/ModelPost.php');
 require_once('models/ModelComment.php');
 require_once('models/ModelUser.php');
 
-use \NWC\Forteroche\Models\ModelPost;
-use \NWC\Forteroche\Models\ModelComment;
-use \NWC\Forteroche\Models\ModelUser;
+use \Forteroche\Models\ModelPost;
+use \Forteroche\Models\ModelComment;
+use \Forteroche\Models\ModelUser;
 
+/**
+ * Gestion de la partie Backend
+ */
 class ControllerBackend
 {
+    private $_modelPost;
+    private $_modelComment;
+    private $_modelUser;
+
+    public function __construct()
+    {
+        $this->_modelPost = new ModelPost();
+        $this->_modelComment = new ModelComment();
+        $this->_modelUser = new ModelUser();
+    }
+
+    // Affichage de la page 'Tableau de bord'
     public function seeDashboard($username, $password)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelComment = new ModelComment();
-            $lastCommentsData = $modelComment->getLastComments();
-            $reportedCommentsData = $modelComment->getReportedComments();
+            $lastCommentsData = $this->_modelComment->getLastComments();
+            $reportedCommentsData = $this->_modelComment->getReportedComments();
             require('views/backend/viewDashboard.php');
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }    
     }
 
+    // Affichage de la page 'Rédaction d'un chapitre'
     public function seeAddPost($username, $password)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
             require('views/backend/viewAddPost.php');
@@ -38,49 +51,45 @@ class ControllerBackend
         }
     }
 
+    // Ajout d'un chapitre à la bdd
     public function addPost($username, $password, $title, $content)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelPost = new ModelPost();
-            $executedQuery = $modelPost->setPost($title, $content);
+            $executedQuery = $this->_modelPost->setPost($title, $content);
 
             if ($executedQuery === false) {
                 throw new \Exception('Impossible d\'ajouter le chapitre !');
             } else {
-                header('Location: index.php?action=seeEditPosts');
+                header('Location: edition-chapitres.html');
             }
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }
     }
 
+    // Affichage de la page 'Edition des chapitres et commentaires'
     public function seeEditPosts($username, $password)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelPost = new ModelPost();
-            $postsData = $modelPost->getPosts();
+            $postsData = $this->_modelPost->getPosts();
             require('views/backend/viewEditPosts.php');
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }
     }
 
+    // Affichage d'un chapitre en mode éditeur
     public function seeEditPost($username, $password, $postId)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelPost = new ModelPost();
-            $post = $modelPost->getPost($postId);
-            $modelComment = new ModelComment();
-            $commentsData = $modelComment->getComments($postId);
+            $post = $this->_modelPost->getPost($postId);
+            $commentsData = $this->_modelComment->getComments($postId);
             if (!empty($post)) {
                 require('views/backend/viewEditPost.php');
             } else {
@@ -91,29 +100,28 @@ class ControllerBackend
         }       
     }
 
+    // Edition d'un chapitre
     public function editPost($username, $password, $postId, $title, $content)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelPost = new ModelPost();
-            $executedQuery = $modelPost->editPost($postId, $title, $content);
+            $executedQuery = $this->_modelPost->editPost($postId, $title, $content);
 
             if ($executedQuery === false) {
                 throw new \Exception('Impossible d\'ajouter le chapitre modifié !');
             } else {
-                header('Location: index.php?action=seeEditPost&postId=' . $postId);
+                header('Location: edition-chapitre-' . $postId . '.html');
             }
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }       
     }
 
+    // Affichage de la page 'Supprimer un chapitre'
     public function seeRemovePost($username, $password, $postId)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
             require('views/backend/viewRemovePost.php');
@@ -122,75 +130,72 @@ class ControllerBackend
         }
     }
 
+    // Suppression d'un chapitre et de ses commentaires
     public function removePost($username, $password, $postId)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelPost = new ModelPost();
-            $executedQuery = $modelPost->removePost($postId);
+            $executedQuery = $this->_modelPost->removePost($postId);
 
             if ($executedQuery === false) {
                 throw new \Exception('Impossible de supprimer le chapitre !');
             } else {
-                header('Location: index.php?action=seeEditPosts');
+                header('Location: edition-chapitres.html');
             }
-            $modelComment = new ModelComment();
-            $executedReq = $modelComment->removeComments($postId);
+            
+            $executedReq = $this->_modelComment->removeComments($postId);
 
             if ($executedReq === false) {
                 throw new \Exception('Impossible de supprimer les commentaires associés au chapitre !');
             } else {
-                header('Location: index.php?action=seeEditPosts');
+                header('Location: edition-chapitres.html');
             }
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }       
     }
 
+    // Modification d'un commentaire
     public function editComment($username, $password, $postId, $author, $comment, $commentId)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelComment = new ModelComment();
-            $executedQuery = $modelComment->editComment($author, $comment, $commentId);
+            $executedQuery = $this->_modelComment->editComment($author, $comment, $commentId);
 
             if ($executedQuery === false) {
                 throw new \Exception('Impossible d\'ajouter le commentaire modifié !');
             } else {
-                header('Location: index.php?action=seeEditPost&postId=' . $postId);
+                header('Location: edition-chapitre-' . $postId . '.html');
             }
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }      
     }
 
+    // Suppression d'un commentaire
     public function removeComment($username, $password, $commentId, $postId)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $modelComment = new ModelComment();
-            $executedQuery = $modelComment->removeComment($commentId);
+            $executedQuery = $this->_modelComment->removeComment($commentId);
 
             if ($executedQuery === false) {
                 throw new \Exception('Impossible de supprimer le commentaire !');
             } else {
-                header('Location: index.php?action=seeEditPost&postId=' . $postId);
+                header('Location: edition-chapitre-' . $postId . '.html');
             }
         } else {
             throw new \Exception('L\'identifiant ou le mot de passe est invalide !');
         }     
     }
 
+    // Affichage de la page 'Paramètres de connexion'
     public function seeSettings($username, $password)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
             require('views/backend/viewSettings.php');
@@ -199,13 +204,13 @@ class ControllerBackend
         }
     }
 
+    // Modification de l'identifiant
     public function editUsername($username, $password, $newUsernameOne)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $executedQuery = $modelUser->editUser($newUsernameOne, $password);
+            $executedQuery = $this->_modelUser->editUser($newUsernameOne, $password);
 
             if ($executedQuery === false) {
                 throw new \Exception('Impossible de modifier votre identifiant !');
@@ -217,13 +222,13 @@ class ControllerBackend
         }   
     }
 
+    // Modification du mot de passe
     public function editPassword($username, $password, $newPasswordOne)
     {
-        $modelUser = new ModelUser();
-        $user = $modelUser->getUser($username);
+        $user = $this->_modelUser->getUser($username);
 
         if (password_verify($password, $user['password_hash'])) {
-            $executedQuery = $modelUser->editUser($username, $newPasswordOne);
+            $executedQuery = $this->_modelUser->editUser($username, $newPasswordOne);
 
             if ($executedQuery === false) {
                 throw new \Exception('Impossible de modifier votre mot de passe !');
@@ -235,10 +240,11 @@ class ControllerBackend
         }   
     }
 
+    // Déconnexion
     public function signOut()
     {
         session_unset(); // supprime les variables de session
         session_destroy(); // supprime la session 
-        header('Location: index.php?action=seeHome');
+        header('Location: accueil.html');
     }
 }

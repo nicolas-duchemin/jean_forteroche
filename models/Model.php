@@ -1,11 +1,15 @@
 <?php
-namespace NWC\Forteroche\Models;
+namespace Forteroche\Models;
 
-class Model
+/**
+ * Connexion à la base de données
+ */
+abstract class Model
 {
-    protected function dbConnect()
+    protected static function dbConnect()
     {
-        $db = new \PDO('mysql:host=localhost;dbname=test;charset=utf8', 'dbuser', '');
+        $db = new \PDO('mysql:host=localhost;dbname=db_forteroche;charset=utf8', 'root', '');
+
         return $db;
     }
 }

@@ -1,12 +1,9 @@
 <?php 
-
 $title = 'Paramètres de connexion';
-
 ob_start(); 
 
     ?>
-
-    <h3>Changement d'identifiant</h3>
+    <h3>CHANGEMENT D'IDENTIFIANT</h3>
     
     <form action="index.php?action=editUsername" method="post">
         <div class="bloc">
@@ -20,7 +17,7 @@ ob_start();
         <p class="buttonArea"><input class="button" type="submit" value="Modifier"></p>
     </form>
         
-    <h3>Changement de mot de passe</h3>
+    <h3>CHANGEMENT DE MOT DE PASSE</h3>
 
     <form action="index.php?action=editPassword" method="post">
         <div class="bloc">
@@ -32,11 +29,8 @@ ob_start();
         </div>
         <p class="buttonArea"><input class="button" type="submit" value="Modifier"></p>
     </form>
-
     <?php 
 
 $content = ob_get_clean();
-
 require('templateBackend.php'); 
-
 ?>

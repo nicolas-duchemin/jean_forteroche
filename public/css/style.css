@@ -1,11 +1,13 @@
 body {
     margin: 0 4%;
-	background: linear-gradient(to top, rgba(19,45,75,1), rgba(19,45,75,0.7)), url("../images/himalayas5.jpg") fixed top center;
+	background: linear-gradient(to top, rgba(19,45,75,1), rgba(19,45,75,0.7)), url("../images/himalayas.jpg") fixed top center;
     background-size: cover;
     font-family: 'Open Sans', sans-serif;
     text-align: justify;
     color: white;
-}  
+} 
+
+/*================= En-tête =================*/
 
 header {
     height: 330px;
@@ -55,7 +57,7 @@ nav input, nav label {
 
     header {
         height: 300px;
-        padding: 200px 0 50px 0;
+        padding: 150px 0 50px 0;
     }
 
     nav label {
@@ -99,7 +101,7 @@ nav input, nav label {
     }
 }
 
-h1, h2, hr {
+h1, h2 {
     text-align: center;
     text-transform: uppercase;
 }
@@ -116,6 +118,8 @@ hr {
     width: 50%;
     color: white;
 }
+
+/*================= Sections =================*/
 
 h3, h4 {
     margin: 20px 10px 10px 0;
@@ -168,7 +172,7 @@ label {
 }
 
 .settings {
-    display: inline; /*labels visibles*/
+    display: inline; /*labels de la page settings visibles*/
 }
 
 input, textarea {
@@ -206,6 +210,8 @@ input, textarea {
 .button:hover {
     background-color: #f0781c;    
 }
+
+/*================= Pied de page =================*/
 
 footer {
     padding: 100px 0px 20px 0px;

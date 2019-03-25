@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">        
         <link rel="stylesheet" href="public/css/style.css">
-        <link rel="icon" href="public/images/favicon.ico">
+        <link rel="icon" href="public/images/favicon.png">
     	<title><?= $title ?></title>
     </head>
 
@@ -18,10 +18,10 @@
             <nav>
                 <input type="checkbox" id="menuIcone">
                 <ul id="ulBackEnd">
-                    <li><a href="index.php?action=seeDashboard">Tableau de bord</a></li>
-                    <li><a href="index.php?action=seeAddPost">Rédaction d'un chapitre</a></li>
-                    <li><a href="index.php?action=seeEditPosts">Édition des chapitres et commentaires</a></li>
-                    <li><a href="index.php?action=seeSettings">Paramètres de connexion</a></li>
+                    <li><a href="tableau-de-bord.html">Tableau de bord</a></li>
+                    <li><a href="redaction-chapitre.html">Rédaction d'un chapitre</a></li>
+                    <li><a href="edition-chapitres.html">Édition des chapitres et commentaires</a></li>
+                    <li><a href="parametres.html">Paramètres de connexion</a></li>
                     <li><a href="index.php?action=signOut">Déconnexion</a></li>
                 </ul>
                 <label id="labelBackEnd" for="menuIcone"><i class="fas fa-bars"></i></label>
@@ -37,7 +37,7 @@
         </section>
 
         <footer id="footerBackEnd" class="flex">
-            <img class="logo" src="public/images/logo.png">
+            <img class="logo" src="public/images/logo.png" alt="initiales de Jean Forteroche">
             <p>COPYRIGHT © JEAN FORTEROCHE | CREATION : ND</p>
         </footer>
 

@@ -1,6 +1,7 @@
 <?php 
 $title = htmlspecialchars($post['title']); 
-ob_start(); 
+ob_start();
+
     ?> 
     <div class="flex">
         <h3><?= htmlspecialchars($post['title']) ?></h3>
@@ -8,7 +9,9 @@ ob_start();
             <em>Publié le <?= $post['creation_date_fr'] ?></em>
             <?php 
             if ($post['update_date_fr']) {
-                ?><em>- Édité le <?= $post['update_date_fr'] ?></em><?php
+                ?>
+                <em>- Édité le <?= $post['update_date_fr'] ?></em>
+                <?php
             } 
             ?>
         </p>
@@ -18,7 +21,7 @@ ob_start();
         <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', $post['content']) ?></p> <!-- pas d'échappement htmlspecialchars ici (mise en page TinyMCE)-->
     </div>
 
-    <h4>Laisser un commentaire</h4>
+    <h4>LAISSER UN COMMENTAIRE</h4>
 
     <form action="index.php?action=addComment&amp;postId=<?= $post['post_id'] ?>" method="post">
         <div class="bloc">    
@@ -39,29 +42,33 @@ ob_start();
                 <p class="date"><em>Posté le <?= $comment['comment_date_fr'] ?></em></p>
                 <?php
                 if ($comment['reporting'] == 1) { 
-                    ?><p class="reportingInfo">Commentaire signalé</p><?php
+                    ?>
+                    <p class="reportingInfo">Commentaire signalé</p>
+                    <?php
                 } 
                 ?> 
             </div>
         </div>
 
         <div class="bloc">    
-            <p><?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', nl2br(htmlspecialchars($comment['comment']))) ?></p>
-        
+            <p>
+                <?= preg_replace('#(http|https)://[a-z0-9._/\-=?&;]+#i', '<a href="$0" target="_blank">$0</a>', nl2br(htmlspecialchars($comment['comment']))) ?>
+            </p>
         </div>
 
         <p>
             <?php
             if ($comment['reporting'] != 1) { 
-                ?><p class="buttonArea"><a class="button" href="index.php?action=reportComment&amp;commentId=<?= $comment['comment_id'] ?>&amp;postId=<?= $comment['post_id'] ?>">Signaler</a></p><?php
+                ?>
+                <p class="buttonArea"><a class="button" href="index.php?action=reportComment&amp;commentId=<?= $comment['comment_id'] ?>&amp;postId=<?= $comment['post_id'] ?>">Signaler</a></p>
+                <?php
             }
             ?>
         </p>
         <?php
     }  
-
     $commentsData->closeCursor();
 
 $content = ob_get_clean();
-
-require('template.php'); ?>
+require('template.php'); 
+?>

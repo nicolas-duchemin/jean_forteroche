@@ -1,24 +1,38 @@
 <?php
-namespace NWC\Forteroche\Models;
+namespace Forteroche\Models;
 
 require_once("models/Model.php");
 
+/**
+ * Manipulation des données concernant les membres
+ */
 class ModelUser extends Model
 {
+    private $_db;
+
+    public function __construct()
+    {
+        $this->_db = parent::dbConnect();
+    }
+
+    // GETTERS
+
+    // Récupération du mot de passe d'un membre
     public function getUser($username)
     {
-        $db = $this->dbConnect();
-        $userData = $db->prepare('SELECT password_hash FROM users WHERE username = ?');
+        $userData = $this->_db->prepare('SELECT password_hash FROM users WHERE username = ?');
         $userData->execute(array($username));
 
         $user = $userData->fetch();
         return $user;
     }
 
+    // SETTERS
+
+    // Modification de l'identifiant ou du mot de passe d'un membre
     public function editUser($newUsername, $newPassword)
     {
-        $db = $this->dbConnect();
-        $query = $db->prepare('UPDATE users SET username = :newUsername, password_hash = :newPassword_hash WHERE username = :pastUsername');
+        $query = $this->_db->prepare('UPDATE users SET username = :newUsername, password_hash = :newPassword_hash WHERE username = :pastUsername');
 
         $executedQuery = $query->execute(array(
             'newUsername' => $newUsername,
@@ -31,10 +45,10 @@ class ModelUser extends Model
 
     /* Debugging *********************************
 
+    // Ajout d'un membre
     public function setUser($username, $password)
     {
-        $db = $this->dbConnect();
-        $query = $db->prepare('INSERT INTO users(username, password_hash) VALUES(:username, :password_hash)');
+        $query = $this->_db->prepare('INSERT INTO users(username, password_hash) VALUES(:username, :password_hash)');
 
         $executedQuery = $query->execute(array(
             'username' => $username,

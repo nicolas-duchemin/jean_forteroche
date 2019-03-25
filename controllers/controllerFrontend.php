@@ -1,39 +1,51 @@
 <?php
-namespace NWC\Forteroche\Controllers;
+namespace Forteroche\Controllers;
 
 require_once('models/ModelPost.php');
 require_once('models/ModelComment.php');
 require_once('models/ModelUser.php');
 
-use \NWC\Forteroche\Models\ModelPost;
-use \NWC\Forteroche\Models\ModelComment;
-use \NWC\Forteroche\Models\ModelUser;
+use \Forteroche\Models\ModelPost;
+use \Forteroche\Models\ModelComment;
+use \Forteroche\Models\ModelUser;
 
+/**
+ * Gestion de la partie Frontend
+ */
 class ControllerFrontend
 {
+    private $_modelPost;
+    private $_modelComment;
+    private $_modelUser;
+
+    public function __construct()
+    {
+        $this->_modelPost = new ModelPost();
+        $this->_modelComment = new ModelComment();
+        $this->_modelUser = new ModelUser();
+    }
+
+    // Affichage de la page 'Accueil'
     public function seeHome()
     {
-        $modelPost = new ModelPost();
-        $lastPost = $modelPost->getLastPost();
+        $lastPost = $this->_modelPost->getLastPost();
 
         require('views/frontend/viewHome.php');
     }
 
+    // Affichage de la page 'Liste des chapitres'
     public function seeListPosts()
     {
-        $modelPost = new ModelPost();
-        $postsData = $modelPost->getPosts();
+        $postsData = $this->_modelPost->getPosts();
 
         require('views/frontend/viewListPosts.php');
     }
 
+    // Affichage d'un chapitre
     public function seePost($postId)
     {
-        $modelPost = new ModelPost();
-        $post = $modelPost->getPost($_GET['postId']);
-        
-        $modelComment = new ModelComment();
-        $commentsData = $modelComment->getComments($_GET['postId']);
+        $post = $this->_modelPost->getPost($postId);
+        $commentsData = $this->_modelComment->getComments($postId);
 
         if (!empty($post)) {
             require('views/frontend/viewPost.php');
@@ -42,59 +54,62 @@ class ControllerFrontend
         }
     }
 
+    // Ajout d'un commentaire
     public function addComment($postId, $author, $comment)
     {
-        $modelComment = new ModelComment();
-        $executedQuery = $modelComment->setComment($postId, $author, $comment);
+        $executedQuery = $this->_modelComment->setComment($postId, $author, $comment);
 
         if ($executedQuery === false) {
             throw new \Exception('Impossible d\'ajouter le commentaire !');
         } else {
-            header('Location: index.php?action=seePost&postId=' . $postId);
+            header('Location: chapitre-' . $postId . '.html');
         }
     }
 
+    // Signalement d'un commentaire
     public function reportComment($commentId, $postId)
     {
-        $modelComment = new ModelComment();
-        $executedQuery = $modelComment->reportComment($commentId);
+        $executedQuery = $this->_modelComment->reportComment($commentId);
 
         if ($executedQuery === false) {
             throw new \Exception('Impossible de signaler le commentaire !');
         } else {
-            header('Location: index.php?action=seePost&postId=' . $postId);
+            header('Location: chapitre-' . $postId . '.html');
         }
     }
 
+    // Affichage de la page 'Auteur'
     public function seeAuthor()
     {
         require('views/frontend/viewAuthor.php');
     }
 
+    // Affichage de la page 'Administration'
     public function seeSignIn()
     {
         require('views/frontend/viewSignIn.php');
     }
 
+    // Connexion
     public function signIn($username, $password)
     {
         $_SESSION['username'] = $username;
         $_SESSION['password'] = $password;
 
-        header('Location: index.php?action=seeDashboard');
+        header('Location: tableau-de-bord.html');
     }
 
     /* Debugging *********************************
 
+    // Inscription
     public function addUser($username, $password)
     {
-        $modelUser = new ModelUser();
-        $executedQuery = $modelUser->setUser($username, $password);
+        $executedQuery = $this->_modelUser->setUser($username, $password);
 
         if ($executedQuery === false) {
             throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
         } else {
-            header('Location: index.php?action=seeHome');
+            header('Location: accueil.html');
         }
     }
     

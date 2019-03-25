@@ -1,42 +1,34 @@
 <?php 
-
 $title = 'Édition des chapitres et commentaires';
-
 ob_start(); 
 
-    ?>
-   
-    <?php while ($post = $postsData->fetch()) {
+    while ($post = $postsData->fetch()) {
         ?>
         <div class="flex">
             <h3><?= htmlspecialchars($post['title']) ?></h3>
-            <p class="date"><em>Publié le <?= $post['creation_date_fr'] ?></em>
-            <?php 
+            <p class="date">
+                <em>Publié le <?= $post['creation_date_fr'] ?></em>
+                <?php 
                 if ($post['update_date_fr']) {
-                    ?><em>- Édité le <?= $post['update_date_fr'] ?></em><?php
+                    ?>
+                    <em>- Édité le <?= $post['update_date_fr'] ?></em>
+                    <?php
                 } 
-            ?></p>
+                ?>
+            </p>
         </div>
         
         <div class="bloc">
             <p><?= $post['preview'] ?> [...]</p> <!-- pas d'échappement htmlspecialchars ici (mise en page TinyMCE)-->
         </div>
 
-        <p class="buttonArea"><a class="button" href="index.php?action=seeEditPost&amp;postId=<?= $post['post_id'] ?>">Éditer</a></p>
-
+        <p class="buttonArea">
+            <a class="button" href="edition-chapitre-<?= $post['post_id'] ?>.html">Éditer</a>
+        </p>
         <?php       
     }
-
     $postsData->closeCursor(); 
 
 $content = ob_get_clean();
-
 require('templateBackend.php'); 
-
 ?>
-
-
-
-    
-        
-    
